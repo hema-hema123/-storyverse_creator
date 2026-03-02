@@ -40,6 +40,4 @@ npm i
 # 4) Start the development server:
 npm run dev
 ```
-## Developed by:
-Inika Goya, Parth Prajapati, Joonyoung Ma, Abdul Samad, and Bisher Hamdan
 
