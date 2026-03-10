@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import type { Show } from "@/data/mockData";
@@ -14,11 +15,24 @@ export default function SearchOverlay({ shows, open, onClose }: SearchOverlayPro
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
+  // Focus input when opened
   useEffect(() => {
     if (open) {
       setQuery("");
-      setTimeout(() => inputRef.current?.focus(), 100);
+      // Small delay to wait for portal mount
+      const timer = setTimeout(() => inputRef.current?.focus(), 150);
+      return () => clearTimeout(timer);
     }
+  }, [open]);
+
+  // Lock body scroll while overlay is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
   // Close on Escape
@@ -43,8 +57,8 @@ export default function SearchOverlay({ shows, open, onClose }: SearchOverlayPro
       ).slice(0, 8)
     : [];
 
-  return (
-    <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex flex-col">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 md:px-12 py-4 border-b border-border">
         <Search className="w-5 h-5 text-muted-foreground" />
@@ -64,7 +78,7 @@ export default function SearchOverlay({ shows, open, onClose }: SearchOverlayPro
       <div className="flex-1 overflow-y-auto px-4 md:px-12 py-6">
         {query.trim() && results.length === 0 && (
           <p className="text-muted-foreground text-center mt-10">
-            No results for "{query}"
+            No results for &quot;{query}&quot;
           </p>
         )}
 
@@ -102,6 +116,7 @@ export default function SearchOverlay({ shows, open, onClose }: SearchOverlayPro
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

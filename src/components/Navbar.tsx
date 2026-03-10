@@ -183,6 +183,14 @@ const Navbar = () => {
             </button>
 
             <button
+              onClick={() => { setSearchOpen(true); setMobileMenuOpen(false); }}
+              className="text-left text-lg font-medium py-3 px-4 rounded-xl hover:bg-accent transition-colors flex items-center gap-3"
+            >
+              <Search className="w-5 h-5 text-muted-foreground" />
+              Search
+            </button>
+
+            <button
               onClick={() => { navigate("/stats"); setMobileMenuOpen(false); }}
               className="text-left text-lg font-medium py-3 px-4 rounded-xl hover:bg-accent transition-colors"
             >
