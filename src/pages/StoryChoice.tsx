@@ -1,11 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { shows } from "@/data/mockData";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useFirestoreShows } from "@/hooks/useFirestoreShows";
 import { Button } from "@/components/ui/button";
 
 const StoryChoice = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { shows, loading } = useFirestoreShows();
 
   // Find episode
   let foundEpisode = null;
@@ -18,6 +19,14 @@ const StoryChoice = () => {
       foundShow = show;
       break;
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
   }
 
   if (!foundEpisode || !foundShow || !foundEpisode.choiceA || !foundEpisode.choiceB) {

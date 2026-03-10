@@ -11,6 +11,7 @@ import EpisodeDetail from "./pages/EpisodeDetail";
 import StoryChoice from "./pages/StoryChoice";
 import CreatorStats from "./pages/CreatorStats";
 import CreatorProfile from "./pages/CreatorProfile";
+import SentimentDashboard from "./pages/SentimentDashboard";
 import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -83,6 +84,14 @@ const App = () => (
             element={
               <RequireAuth>
                 <CreatorProfile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/sentiment"
+            element={
+              <RequireAuth>
+                <SentimentDashboard />
               </RequireAuth>
             }
           />

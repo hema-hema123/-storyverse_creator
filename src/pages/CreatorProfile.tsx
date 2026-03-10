@@ -3,13 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Send, ChevronLeft, User } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ShowRow from "@/components/ShowRow";
-import { shows } from "@/data/mockData";
+import { useFirestoreShows } from "@/hooks/useFirestoreShows";
 import { Button } from "@/components/ui/button";
 
 const creators = [
   { id: "ari", name: "Ari V.", role: "Editor", niche: "Fantasy recaps" },
   { id: "mina", name: "Mina K.", role: "Designer", niche: "Cinematic titles" },
   { id: "theo", name: "Theo J.", role: "Writer", niche: "Sci‑fi hooks" },
+  { id: "nova", name: "Nova R.", role: "Animator", niche: "Sci-fi storyboards" },
+  { id: "jules", name: "Jules T.", role: "Sound Designer", niche: "Ambient scoring" },
+  { id: "priya", name: "Priya S.", role: "Writer", niche: "Romantic drama" },
 ];
 
 type Message = { id: string; text: string; from: "you" | "them"; time: string };
@@ -17,6 +20,7 @@ type Message = { id: string; text: string; from: "you" | "them"; time: string };
 const CreatorProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { shows } = useFirestoreShows();
   const creator = useMemo(() => creators.find((c) => c.id === id) ?? creators[0], [id]);
 
   const [messageDraft, setMessageDraft] = useState("");
@@ -92,13 +96,13 @@ const CreatorProfile = () => {
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     setMessages((prev) => {
-      const next = [...prev, { id: `${Date.now()}`, text: trimmed, from: "you", time }];
+      const next: Message[] = [...prev, { id: `${Date.now()}`, text: trimmed, from: "you" as const, time }];
       window.setTimeout(() => {
         const replyTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         const replyText = generateReply(trimmed, next);
         setMessages((current) => [
           ...current,
-          { id: `${Date.now()}-reply`, text: replyText, from: "them", time: replyTime },
+          { id: `${Date.now()}-reply`, text: replyText, from: "them" as const, time: replyTime },
         ]);
       }, 700);
       return next;
@@ -119,7 +123,7 @@ const CreatorProfile = () => {
           Back to Creator Lounge
         </button>
 
-        <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr] items-start">
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
           <div className="rounded-3xl border border-border bg-card/80 backdrop-blur p-6 md:p-8">
             <div className="flex items-center gap-4">
               <div className="w-20 h-20 rounded-2xl bg-primary/20 flex items-center justify-center">

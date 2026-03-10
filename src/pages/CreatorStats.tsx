@@ -1,11 +1,20 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, TrendingUp, Users, BookOpen, Eye, BarChart3, Sparkles } from "lucide-react";
-import { creatorStats, trendingTopics, nicheTopics } from "@/data/mockData";
+import { ArrowLeft, TrendingUp, Users, BookOpen, Eye, BarChart3, Sparkles, Loader2 } from "lucide-react";
+import { useFirestoreStats } from "@/hooks/useFirestoreStats";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 const CreatorStats = () => {
+  const { creatorStats, trendingTopics, nicheTopics, loading } = useFirestoreStats();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

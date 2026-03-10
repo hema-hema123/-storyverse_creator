@@ -1,12 +1,21 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Play, Plus, ThumbsUp, Share2 } from "lucide-react";
-import { shows } from "@/data/mockData";
+import { ArrowLeft, Play, Plus, ThumbsUp, Share2, Loader2 } from "lucide-react";
+import { useFirestoreShows } from "@/hooks/useFirestoreShows";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 
 const ShowDetail = () => {
   const { id } = useParams();
+  const { shows, loading } = useFirestoreShows();
   const show = shows.find((s) => s.id === id);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   if (!show) {
     return (

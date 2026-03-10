@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Save, Users, BookOpen, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
-import { shows } from "@/data/mockData";
+import { useFirestoreShows } from "@/hooks/useFirestoreShows";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const EpisodeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { shows } = useFirestoreShows();
   
   type EpisodeDraft = {
     id: string;

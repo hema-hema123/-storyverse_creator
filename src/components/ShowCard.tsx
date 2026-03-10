@@ -10,7 +10,7 @@ const ShowCard = ({ show }: ShowCardProps) => {
   return (
     <Link
       to={`/show/${show.id}`}
-      className="relative group flex-shrink-0 w-[220px] md:w-[260px] overflow-hidden rounded-2xl border border-border bg-card/80 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className="relative group flex-shrink-0 w-[160px] sm:w-[200px] md:w-[260px] overflow-hidden rounded-2xl border border-border bg-card/80 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="aspect-[16/10] relative">
         <img src={show.image} alt={show.title} className="w-full h-full object-cover" />

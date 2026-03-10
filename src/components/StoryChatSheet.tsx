@@ -92,7 +92,7 @@ export default function StoryChatSheet({ open, onOpenChange, initialPrompt }: St
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-[420px] sm:w-[520px] p-0">
+      <SheetContent side="right" className="w-full sm:w-[420px] md:w-[520px] p-0">
         <div className="flex flex-col h-full">
           <SheetHeader className="px-4 py-3 border-b">
             <SheetTitle>AI Story Assistant</SheetTitle>

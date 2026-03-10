@@ -1,0 +1,26 @@
+rules_version='2'
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Shows collection — authenticated users can read/write
+    match /shows/{showId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Meta documents (creatorStats, etc.) — authenticated read/write
+    match /meta/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // User-specific data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Fallback: deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
